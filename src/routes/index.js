@@ -1,9 +1,13 @@
+/*
+ * @Description:index 路由
+ * @Author: xiaoer
+ * @Date: 2020-11-11 16:15:00
+ * @LastEditTime: 2020-11-12 14:31:46
+ */
 const router = require('koa-router')();
 
-router.get('/', async (ctx, next) => {
-    await ctx.render('index', {
-        title: 'Hello World Koa 2!'
-    });
+router.get('/error', async (ctx, next) => {
+    await ctx.render('error');
 });
 
 router.get('/string', async (ctx, next) => {
