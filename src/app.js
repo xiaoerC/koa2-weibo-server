@@ -2,7 +2,7 @@
  * @Description:app
  * @Author: xiaoer
  * @Date: 2020-11-11 16:15:00
- * @LastEditTime: 2020-11-12 15:10:38
+ * @LastEditTime: 2020-11-12 19:20:47
  */
 const Koa = require('koa');
 const app = new Koa();
@@ -45,7 +45,7 @@ app.use(views(__dirname + '/views', {
 // session
 app.keys = [SESSION_SECRET_KEY];
 app.use(session({
-    keys: 'weibo.sid',
+    key: 'weibo.sid',
     prefix: 'weibo.sess',
     cookie: {
         path: '/',
