@@ -2,10 +2,12 @@
  * @Description: sequelize 同步数据库
  * @Author: xiaoer
  * @Date: 2020-11-12 11:03:49
- * @LastEditTime: 2020-11-12 11:13:56
+ * @LastEditTime: 2020-11-13 15:17:50
  */
 
 const seq = require('./seq');
+
+require('./model/index');
 
 // 测试连接
 seq.authenticate().then(() =>  {

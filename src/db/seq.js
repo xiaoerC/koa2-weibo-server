@@ -2,7 +2,7 @@
  * @Description:sequelize 实例
  * @Author: xiaoer
  * @Date: 2020-11-12 10:48:21
- * @LastEditTime: 2020-11-12 11:03:31
+ * @LastEditTime: 2020-11-13 15:20:00
  */
 
 const Sequelize = require('sequelize');
@@ -31,5 +31,5 @@ if(isProd) {
 
 const seq = new Sequelize(database, user, password, conf);
 
-module.export = seq;
+module.exports = seq;
 

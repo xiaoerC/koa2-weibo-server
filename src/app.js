@@ -2,7 +2,7 @@
  * @Description:app
  * @Author: xiaoer
  * @Date: 2020-11-11 16:15:00
- * @LastEditTime: 2020-11-12 19:20:47
+ * @LastEditTime: 2020-11-13 16:14:25
  */
 const Koa = require('koa');
 const app = new Koa();
@@ -19,6 +19,8 @@ const { SESSION_SECRET_KEY } = require('./conf/secretKeys');
 const { REDIS_CONF } = require('./conf/db');
 
 // 路由引入
+const userApiRouter = require('./routes/api/user');
+const userViewRouter = require('./routes/views/user');
 const errorViewRouter = require('./routes/views/error');
 
 // error handler
@@ -66,8 +68,8 @@ app.use(async (ctx, next) => {
 });
 
 // routes
-// app.use(index.routes(), index.allowedMethods());
-// app.use(users.routes(), users.allowedMethods());
+app.use(userApiRouter.routes(), userViewRouter.allowedMethods());
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods());
 
 // error-handling
