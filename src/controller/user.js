@@ -2,12 +2,14 @@
  * @Description: user 逻辑层 controller
  * @Author: xiaoer
  * @Date: 2020-11-13 16:18:41
- * @LastEditTime: 2020-11-13 17:54:01
+ * @LastEditTime: 2020-11-16 15:24:06
  */
 
-const { getUserInfo } = require('../services/user');
+const { getUserInfo, createUser } = require('../services/user');
 const { SuccessMessage, ErrorMessage } = require('../model/Message');
-const { userNameNotExist } = require('../model/errorInfo');
+const { userNameNotExist, userNameExist, registerError,loginError } = require('../model/errorInfo');
+const doCrypto = require('../util/cryp');
+
 /**
  * @description: 用户名是否存在
  * @param {*} userName
@@ -19,6 +21,45 @@ async function isExist(userName) {
     return new ErrorMessage(userNameNotExist);
 }
 
+/**
+ * @description: 注册
+ * @param {string} userName
+ * @param {string} password
+ * @param {string} gender
+ * @return {*}
+ */
+async function register({userName, password, gender}) {
+    const userInfo = await getUserInfo(userName);
+    if(userInfo) return new ErrorMessage(userNameExist);
+    try {
+        const res = await createUser({
+            userName,
+            password: doCrypto(password),
+            gender});
+        if(res) return new SuccessMessage();
+    } catch(err) {
+        console.error(err.message, err.stack);
+        return new ErrorMessage(registerError);
+    }
+}
+
+/**
+ * @description: 登录
+ * @param {object} ctx
+ * @param {string} userName
+ * @param {string} password
+ * @return {*}
+ */
+async function login(ctx, userName, password) {
+    password = doCrypto(password);
+    const userInfo = await getUserInfo(userName, password);
+    if(!userInfo) return new ErrorMessage(loginError);
+    if(!ctx.session.userInfo) ctx.session.userInfo = userInfo;
+    return new SuccessMessage();
+}
+
 module.exports = {
-    isExist
+    isExist,
+    register,
+    login
 };
