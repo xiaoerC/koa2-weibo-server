@@ -2,7 +2,7 @@
  * @Description: user api test
  * @Author: xiaoer
  * @Date: 2020-11-16 17:15:56
- * @LastEditTime: 2020-11-16 19:18:42
+ * @LastEditTime: 2020-11-17 18:22:16
  */
 
 const server = require('../server');
@@ -65,10 +65,43 @@ test('登录应该成功', async () => {
     COOKIE = res.headers['set-cookie'].join(';');
 });
 
+// 修改信息
+test('修改信息应该成功', async () => {
+    const res = await server
+        .patch('/api/user/changeInfo')
+        .send({
+            nickName: '测试昵称',
+            city: '测试城市',
+            picture: '/test.png'
+        })
+        .set('cookie', COOKIE);
+    expect(res.body.code).toBe(1);
+});
+
+// 修改密码
+test('修改密码应该成功', async () => {
+    const res = await server
+        .patch('/api/user/changePassword')
+        .send({
+            password,
+            newPassword: `p_${Date.now()}`
+        })
+        .set('cookie', COOKIE);
+    expect(res.body.code).toBe(1);
+});
+
 // 删除
 test('删除用户应该成功', async () => {
     const res = await server
         .post('/api/user/delete')
+        .set('cookie', COOKIE);
+    expect(res.body.code).toBe(1);
+});
+
+// 登录退出
+test('退出登录应该成功', async () => {
+    const res = await server
+        .post('/api/user/logout')
         .set('cookie', COOKIE);
     expect(res.body.code).toBe(1);
 });

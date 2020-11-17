@@ -2,11 +2,11 @@
  * @Description:user view 路由
  * @Author: xiaoer
  * @Date: 2020-11-13 14:33:52
- * @LastEditTime: 2020-11-17 10:36:19
+ * @LastEditTime: 2020-11-17 17:51:10
  */
 
 const router = require('koa-router')();
-
+const { loginRedirect } = require('../../middlewares/loginCheck');
 /**
  * @description: 获取登陆信息
  * @param {*} ctx
@@ -28,7 +28,7 @@ router.get('/register', async (ctx, next) => {
     await ctx.render('register', getUserInfo(ctx));
 });
 
-router.get('/setting', async (ctx, next) => {
+router.get('/setting', loginRedirect, async (ctx, next) => {
     await ctx.render('setting', ctx.session.userInfo);
 });
 

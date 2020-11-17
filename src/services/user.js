@@ -2,7 +2,7 @@
  * @Description: user services
  * @Author: xiaoer
  * @Date: 2020-11-13 16:26:05
- * @LastEditTime: 2020-11-17 11:40:26
+ * @LastEditTime: 2020-11-17 17:31:29
  */
 
 const { User } = require('../db/model/index');
@@ -81,7 +81,6 @@ async function updateUser({ newNickName, newPicture, newCity, newPassword} , { u
     let whereData = { userName };
     if(password) whereData.password = password;
 
-    console.log('result==>', whereData, newPassword);
     const result = await User.update(updateData, {
         where: whereData
     });

@@ -2,7 +2,7 @@
  * @Description:登录验证
  * @Author: xiaoer
  * @Date: 2020-11-16 15:51:00
- * @LastEditTime: 2020-11-16 16:03:26
+ * @LastEditTime: 2020-11-17 17:51:43
  */
 const { ErrorMessage } = require('../model/Message');
 
@@ -32,7 +32,7 @@ async function loginRedirect(ctx, next) {
         return;
     }
     const cururl = ctx.url;
-    return ctx.redirect('/login?url=', encodeURIComponent(cururl));
+    return ctx.redirect('/login?url=' + encodeURIComponent(cururl));
 }
 
 module.exports = {

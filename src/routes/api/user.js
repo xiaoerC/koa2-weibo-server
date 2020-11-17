@@ -2,7 +2,7 @@
  * @Description: user api 路由
  * @Author: xiaoer
  * @Date: 2020-11-13 16:09:23
- * @LastEditTime: 2020-11-17 11:38:05
+ * @LastEditTime: 2020-11-17 17:26:26
  */
 
 const router = require('koa-router')();
@@ -35,12 +35,12 @@ router.post('/delete', loginCheck, async (ctx, next) => {
     }
 });
 
-router.patch('/changeInfo', loginCheck, async (ctx, next) => {
+router.patch('/changeInfo', loginCheck, validator, async (ctx, next) => {
     const { nickName, city, picture } = ctx.request.body;
     ctx.body = await changeInfo(ctx, { nickName, city, picture });
 });
 
-router.patch('/changePassword', loginCheck, async (ctx, next) => {
+router.patch('/changePassword', loginCheck, validator, async (ctx, next) => {
     const { password, newPassword } = ctx.request.body;
     const { userName } = ctx.session.userInfo;
     ctx.body = await changePassword(userName, password, newPassword);
