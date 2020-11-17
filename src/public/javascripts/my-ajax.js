@@ -1,6 +1,8 @@
-/**
- * @description 基于 jquery 封装 ajax
- * @author 双越老师
+/*
+ * @Description: 基于 jquery 封装 ajax
+ * @Author: xiaoer
+ * @Date: 2020-11-12 11:48:58
+ * @LastEditTime: 2020-11-17 11:15:41
  */
 
 (function(window, $) {
@@ -50,7 +52,7 @@
             processData: false,
             data: formData,
             success: function(res) {
-                if (res.errno !== 0) {
+                if (res.code <= 0) {
                     // 错误
                     callback(res.message)
                     return
@@ -73,6 +75,7 @@
             contentType: 'application/json;charset=UTF-8',
             data: params ? JSON.stringify(params) : '',
             success: function(res) {
+                console.log(2);
                 if (res.code <= 0) {
                     // 错误
                     callback(res.message)
@@ -83,7 +86,7 @@
             },
             error: function(error) {
                 // 错误
-                callback(error.message)
+                callback('操作错误!')
             }
         })
     }

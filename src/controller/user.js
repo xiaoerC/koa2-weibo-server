@@ -2,12 +2,12 @@
  * @Description: user 逻辑层 controller
  * @Author: xiaoer
  * @Date: 2020-11-13 16:18:41
- * @LastEditTime: 2020-11-16 19:36:30
+ * @LastEditTime: 2020-11-17 11:38:38
  */
 
-const { getUserInfo, createUser, deleteUser } = require('../services/user');
+const { getUserInfo, createUser, deleteUser, updateUser } = require('../services/user');
 const { SuccessMessage, ErrorMessage } = require('../model/Message');
-const { userNameNotExist, userNameExist, registerError,loginError } = require('../model/errorInfo');
+const { userNameNotExist, userNameExist, registerError, loginError, updateUserError } = require('../model/errorInfo');
 const doCrypto = require('../util/cryp');
 
 /**
@@ -69,9 +69,52 @@ async function deleteCurUser(userName) {
     return new ErrorMessage(deleteUserError);
 }
 
+/**
+ * @description: 修改用户信息
+ * @param {*} userName
+ * @return {*}
+ */
+async function changeInfo(ctx, { nickName, city, picture }) {
+    const { userName } = ctx.session.userInfo;
+    if(!nickName) nickName = userName;
+    const result = await updateUser(
+        {
+            newNickName:nickName,
+            newCity: city,
+            newPicture: picture
+        },
+        { userName }
+    );
+    if(!result) return new ErrorMessage(updateUserError);
+    Object.assign(ctx.session.userInfo, { nickName, city, picture });
+    return new SuccessMessage();
+}
+
+/**
+ * @description:  修改密码
+ * @param {*} password
+ * @return {*}
+ */
+async function changePassword(userName, password, newPassword) {
+    const result = await updateUser(
+        { newPassword: doCrypto(newPassword) },
+        { userName, password: doCrypto(password) }
+    );
+    if(!result) return new ErrorMessage(updateUserError);
+    return new SuccessMessage();
+}
+
+async function logout(ctx) {
+    delete ctx.session.userInfo;
+    return new SuccessMessage();
+};
+
 module.exports = {
     isExist,
     register,
     login,
-    deleteCurUser
+    deleteCurUser,
+    changeInfo,
+    changePassword,
+    logout
 };

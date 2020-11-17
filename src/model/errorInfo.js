@@ -2,7 +2,7 @@
  * @Description: 错误信息集合
  * @Author: xiaoer
  * @Date: 2020-11-13 17:49:50
- * @LastEditTime: 2020-11-16 17:12:04
+ * @LastEditTime: 2020-11-17 15:57:54
  */
 
 module.exports = {
@@ -29,5 +29,13 @@ module.exports = {
     deleteUserError: {
         code: -1006,
         message: '删除用户失败'
+    },
+    updateUserError: {
+        code: -1007,
+        message: '修改用户失败'
+    },
+    uploadFilesSizeError: {
+        code: -1008,
+        message: '上传文件过大'
     }
 };

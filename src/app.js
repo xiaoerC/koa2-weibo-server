@@ -2,7 +2,7 @@
  * @Description:app
  * @Author: xiaoer
  * @Date: 2020-11-11 16:15:00
- * @LastEditTime: 2020-11-15 14:30:57
+ * @LastEditTime: 2020-11-17 16:56:30
  */
 const Koa = require('koa');
 const app = new Koa();
@@ -13,6 +13,8 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
+const koaStatic = require('koa-static');
+const path = require('path');
 
 const { isProd } = require('./util/env');
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys');
@@ -20,6 +22,7 @@ const { REDIS_CONF } = require('./conf/db');
 
 // 路由引入
 const userApiRouter = require('./routes/api/user');
+const utilsApiRouter = require('./routes/api/utils');
 const userViewRouter = require('./routes/views/user');
 const errorViewRouter = require('./routes/views/error');
 
@@ -38,7 +41,8 @@ app.use(bodyparser({
 }));
 app.use(json());
 app.use(logger());
-app.use(require('koa-static')(__dirname + '/public'));
+app.use(koaStatic(__dirname + '/public'));
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')));
 
 app.use(views(__dirname + '/views', {
   	extension: 'ejs'
@@ -68,7 +72,8 @@ app.use(async (ctx, next) => {
 });
 
 // routes
-app.use(userApiRouter.routes(), userViewRouter.allowedMethods());
+app.use(userApiRouter.routes(), userApiRouter.allowedMethods());
+app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods());
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods());
 

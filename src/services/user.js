@@ -2,7 +2,7 @@
  * @Description: user services
  * @Author: xiaoer
  * @Date: 2020-11-13 16:26:05
- * @LastEditTime: 2020-11-16 17:12:57
+ * @LastEditTime: 2020-11-17 11:40:26
  */
 
 const { User } = require('../db/model/index');
@@ -48,6 +48,11 @@ async function createUser({userName, password, gender, nickName}) {
     return result.dataValues;
 }
 
+/**
+ * @description: 删除user
+ * @param {*} userName
+ * @return {*}
+ */
 async function deleteUser(userName) {
     const result = await User.destroy({
         where: { userName }
@@ -56,8 +61,35 @@ async function deleteUser(userName) {
     return result > 0;
 }
 
+/**
+ * @description: 更新user
+ * @param {string} newNickName
+ * @param {string} newPicture
+ * @param {string} newCity
+ * @param {string} newPassowrd
+ * @param {string} userName
+ * @param {string} password
+ * @return {*}
+ */
+async function updateUser({ newNickName, newPicture, newCity, newPassword} , { userName, password }) {
+    let updateData = {};
+    if(newNickName) updateData.nickName = newNickName;
+    if(newPicture) updateData.picture = newPicture;
+    if(newCity) updateData.city = newCity;
+    if(newPassword) updateData.password = newPassword;
+
+    let whereData = { userName };
+    if(password) whereData.password = password;
+
+    console.log('result==>', whereData, newPassword);
+    const result = await User.update(updateData, {
+        where: whereData
+    });
+    return result[0] > 0;
+}
 module.exports = {
     getUserInfo,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser
 };
