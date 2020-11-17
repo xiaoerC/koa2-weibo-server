@@ -2,7 +2,7 @@
  * @Description: 错误信息集合
  * @Author: xiaoer
  * @Date: 2020-11-13 17:49:50
- * @LastEditTime: 2020-11-16 15:11:28
+ * @LastEditTime: 2020-11-16 17:12:04
  */
 
 module.exports = {
@@ -25,5 +25,9 @@ module.exports = {
     loginError: {
         code: -1005,
         message: '用户名或密码错误'
+    },
+    deleteUserError: {
+        code: -1006,
+        message: '删除用户失败'
     }
 };

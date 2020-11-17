@@ -2,7 +2,7 @@
  * @Description: 存储配置
  * @Author: xiaoer
  * @Date: 2020-11-12 10:36:56
- * @LastEditTime: 2020-11-12 10:47:43
+ * @LastEditTime: 2020-11-16 19:35:53
  */
 const { isprod, isProd } = require('../util/env');
 
@@ -20,12 +20,12 @@ let MYSQL_CONF = {
 };
 
 if(isProd) {
-    let REDIS_CONF = {
+    REDIS_CONF = {
         port: 6379,
         host: '127.0.0.1'
     };
 
-    let MYSQL_CONF = {
+    MYSQL_CONF = {
         port: '3306',
         host: 'localhost',
         user: 'root',

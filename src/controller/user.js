@@ -2,10 +2,10 @@
  * @Description: user 逻辑层 controller
  * @Author: xiaoer
  * @Date: 2020-11-13 16:18:41
- * @LastEditTime: 2020-11-16 15:24:06
+ * @LastEditTime: 2020-11-16 19:36:30
  */
 
-const { getUserInfo, createUser } = require('../services/user');
+const { getUserInfo, createUser, deleteUser } = require('../services/user');
 const { SuccessMessage, ErrorMessage } = require('../model/Message');
 const { userNameNotExist, userNameExist, registerError,loginError } = require('../model/errorInfo');
 const doCrypto = require('../util/cryp');
@@ -58,8 +58,20 @@ async function login(ctx, userName, password) {
     return new SuccessMessage();
 }
 
+/**
+ * @description: 删除当前用户
+ * @param {*} userName
+ * @return {*}
+ */
+async function deleteCurUser(userName) {
+    const result = await deleteUser(userName);
+    if(result) return new SuccessMessage();
+    return new ErrorMessage(deleteUserError);
+}
+
 module.exports = {
     isExist,
     register,
-    login
+    login,
+    deleteCurUser
 };

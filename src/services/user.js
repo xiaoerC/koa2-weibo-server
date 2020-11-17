@@ -2,7 +2,7 @@
  * @Description: user services
  * @Author: xiaoer
  * @Date: 2020-11-13 16:26:05
- * @LastEditTime: 2020-11-16 15:23:28
+ * @LastEditTime: 2020-11-16 17:12:57
  */
 
 const { User } = require('../db/model/index');
@@ -48,7 +48,16 @@ async function createUser({userName, password, gender, nickName}) {
     return result.dataValues;
 }
 
+async function deleteUser(userName) {
+    const result = await User.destroy({
+        where: { userName }
+    });
+    // result 返回行数
+    return result > 0;
+}
+
 module.exports = {
     getUserInfo,
-    createUser
+    createUser,
+    deleteUser
 };
